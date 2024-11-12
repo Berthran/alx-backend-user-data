@@ -1,4 +1,4 @@
-#!/home/danlinux/ALX/alx-backend-user-data/0x01-Basic_authentication/SimpleAPI/basicAuth/bin/python3.7
+#!/home/danlinux/ALX/alx-backend-user-data/0x01-Basic_authentication/basicAuth/bin/python3.7
 # -*- coding: utf-8 -*-
 import re
 import sys
