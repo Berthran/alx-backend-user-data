@@ -4,8 +4,10 @@ A class to manage API authentication
 '''
 import base64
 from flask import request
-from typing import (List, TypeVar)
+from typing import (List, TypeVar, Dict)
 from api.v1.auth.auth import Auth
+from models import base
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -53,3 +55,22 @@ class BasicAuth(Auth):
             return (None, None)
         email, password = decoded_b64_auth_header.split(":")
         return (email, password)
+
+    def user_object_from_credentials(self, user_email: str,
+                                     user_pwd: str) -> TypeVar('User'):
+        """ Returns the User instance based on his email and password
+        """
+        if user_email is None:
+            return None
+        if user_pwd is None:
+            return None
+        allUsers: Dict = base.DATA.get('User')
+        if not allUsers:
+            return None
+        userByEmail: List = User.search({'email': user_email})
+        if not userByEmail:
+            return None
+        user = userByEmail[0]
+        if not user.is_valid_password(user_pwd):
+            return None
+        return user
