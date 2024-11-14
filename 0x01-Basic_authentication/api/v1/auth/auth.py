@@ -2,6 +2,7 @@
 '''
 A class to manage API authentication
 '''
+import re
 from flask import request
 from typing import (List, TypeVar)
 
@@ -19,8 +20,10 @@ class Auth:
         if path is None or excluded_paths is None:
             return True
         path = path if path.endswith('/') else path + '/'
-        if path in excluded_paths:
-            return False
+        for pathExp in excluded_paths:
+            pattern = rf"{pathExp}"
+            if re.search(pattern, path):
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
