@@ -33,14 +33,17 @@ class BasicAuth(Auth):
         """ Returns the decoded value of Base64 string
         """
         if base64_auth_header is None:
+            # print('base64_auth_header is None')
             return None
         if type(base64_auth_header) is not str:
+            # print('base64_auth_header not str')
             return None
         try:
             headerBytes = bytes(base64_auth_header, 'utf-8')
             decodedHeader = base64.decodestring(headerBytes)
             return decodedHeader.decode('utf-8')
         except Exception:
+            # print(e)
             return None
 
     def extract_user_credentials(self,
@@ -56,7 +59,7 @@ class BasicAuth(Auth):
         credentials = decoded_b64_auth_header.split(":")
         email = credentials[0]
         password = ":".join(credentials[1:])
-        print(paasword)
+        # print(password)
         return (email, password)
 
     def user_object_from_credentials(self, user_email: str,
@@ -83,10 +86,11 @@ class BasicAuth(Auth):
         """
         auth_header = self.authorization_header(request)
         b64_auth_header = self.extract_base64_authorization_header(auth_header)
-        print(b64_auth_header)
+        # print(b64_auth_header)
         auth_header = self.decode_base64_authorization_header(b64_auth_header)
+        # print('auth_header', auth_header)
         user_email, user_pwd = self.extract_user_credentials(auth_header)
-        print(user_pwd)
+        # print('user_email:', user_email, 'user_pwd', user_pwd)
         userObj = self.user_object_from_credentials(user_email, user_pwd)
         if userObj is None:
             return None
