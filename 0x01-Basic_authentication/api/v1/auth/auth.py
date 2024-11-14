@@ -22,7 +22,7 @@ class Auth:
         path = path if path.endswith('/') else path + '/'
         for pathExp in excluded_paths:
             pattern = rf"{pathExp}"
-            if re.search(pattern, path):
+            if re.fullmatch(pattern, path):
                 return False
         return True
 
