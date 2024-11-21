@@ -3,6 +3,7 @@
 Hash user password
 '''
 
+import uuid
 import bcrypt
 from db import DB
 from user import User
@@ -52,3 +53,8 @@ class Auth:
             return False
         except NoResultFound:
             return False
+
+    def _generate_uuid(self) -> str:
+        """Returns string representation of a uuid
+        """
+        return str(uuid.uuid4())
