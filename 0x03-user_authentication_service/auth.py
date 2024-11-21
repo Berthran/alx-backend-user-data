@@ -54,6 +54,7 @@ class Auth:
         except NoResultFound:
             return False
 
+    @property
     def _generate_uuid() -> str:
         """Returns string representation of a uuid
         """
