@@ -34,12 +34,12 @@ class DB:
         """ Save the user to the database
         """
         new_user = User(email=email, hashed_password=hashed_password)
-        session = self._session
+        # session = self._session
         try:
-            session.add(new_user)
-            session.commit()
-            session.refresh(new_user)
+            self._session.add(new_user)
+            self._session.commit()
+            self._session.refresh(new_user)
             return new_user
         except Exception as e:
-            session.rollback()
-            return User()
+            print(e)
+            pass
