@@ -55,5 +55,16 @@ class DB:
             if user:
                 return user
             raise NoResultFound
-        except InvalidRequestError as e:
-            raise e
+        except InvalidRequestError as exception:
+            raise exception
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ Use self.find_user_by to locate and update a user
+        """
+        user = self.find_user_by(id=user_id)
+        if user:
+            for attribute, value in kwargs.items():
+                if user.__dict__.get(attribute):
+                    user.__dict__[attribute] = value
+                else:
+                    raise ValueError
