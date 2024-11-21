@@ -40,10 +40,10 @@ class DB:
             self._session.commit()
             self._session.refresh(new_user)
             return new_user
-        except Exception as e:
-            raise e
+        except Exception:
+            pass
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """Returns first row found in the users table
         that matches the kwargs filter
         """
