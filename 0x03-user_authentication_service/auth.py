@@ -23,15 +23,17 @@ class Auth:
     """
 
     def __init__(self):
+        '''Constructor function
+        '''
         self._db = DB()
 
-    def register_user(self, email: str, password: bytes) -> User:
+    def register_user(self, email: str, password: str) -> User:
         """Registers a user with email and password
         """
         try:
             userExits = self._db.find_user_by(email=email)
             raise ValueError("User {} already exists".format(email))
-        except NoResultFound:
+        except Exception:
             hashedpwd = _hash_password(password)
             new_user = self._db.add_user(email=email,
                                          hashed_password=hashedpwd)
