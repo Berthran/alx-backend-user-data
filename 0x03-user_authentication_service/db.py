@@ -42,3 +42,18 @@ class DB:
             return new_user
         except Exception as e:
             raise e
+
+    def find_user_by(self, **kwargs):
+        """Returns first row found in the users table
+        that matches the kwargs filter
+        """
+        from sqlalchemy.orm.exc import NoResultFound
+        from sqlalchemy.exc import InvalidRequestError
+
+        try:
+            user = self._session.query(User).filter_by(**kwargs).first()
+            if user:
+                return user
+            raise NoResultFound
+        except InvalidRequestError as e:
+            raise e
