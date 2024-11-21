@@ -41,5 +41,4 @@ class DB:
             self._session.refresh(new_user)
             return new_user
         except Exception as e:
-            print(e)
             pass
