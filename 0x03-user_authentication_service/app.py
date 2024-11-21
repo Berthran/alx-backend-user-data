@@ -4,13 +4,13 @@ Basic Flask App
 """
 
 
-from flask import Flask, jsonify, request
 from auth import Auth
+from flask import Flask, jsonify, request
 from sqlalchemy.orm.exc import NoResultFound
 
 
-app = Flask(__name__)
 AUTH = Auth()
+app = Flask(__name__)
 
 
 @app.route('/', methods=['GET'])
@@ -26,6 +26,9 @@ def users():
     '''
     email = request.form.get('email')
     password = request.form.get('password')
+
+    if not email or not password:
+        return jsonify({"error": "Missing email or password"}), 400
 
     try:
         new_user = AUTH.register_user(email=email, password=password)
