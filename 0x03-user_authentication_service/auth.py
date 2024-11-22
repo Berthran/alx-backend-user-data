@@ -92,3 +92,13 @@ class Auth:
             return None
         except NoResultFound:
             return None
+
+    def get_reset_password_token(self, email: str) -> str:
+        """Gets a reset token
+        """
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+            reset_token = _generate_uuid()
+            user.reset_token = reset_token
+        except NoResultFound:
+            raise ValueError()
