@@ -62,7 +62,7 @@ class Auth:
             return False
 
     def create_session(self, email: str) -> session:
-        """Creats a session
+        """Creates a session
         """
         try:
             user = self._db.find_user_by(email=email)
@@ -101,5 +101,16 @@ class Auth:
             reset_token = _generate_uuid()
             user.reset_token = reset_token
             return reset_token
+        except NoResultFound:
+            raise ValueError()
+
+    def update_password9(self, reset_token: str, password: str) -> None:
+        """Resets a password
+        """
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+            hashed_password = _hash_password(password)
+            user.hashed_password = hashed_password
+            user.reset_token = None
         except NoResultFound:
             raise ValueError()
