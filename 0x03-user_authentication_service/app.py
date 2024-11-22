@@ -93,10 +93,24 @@ def get_reset_password_token():
         user = AUTH.get_user_from_session_id(session_id)
         reset_token = AUTH.get_reset_password_token(user.email)
         return jsonify({
-                            "email": user.email,
-                            "reset_token": user.reset_token
+                            "email": email,
+                            "reset_token": reset_token
                        }), 200
     else:
+        abort(403)
+
+
+@app.route('/reset_password', methods=['PUT'])
+def update_password():
+    """Changes user's password
+    """
+    email = request.form.get("email")
+    reset_token = request.form.get("reset_token")
+    new_password = request.form.get("new_password")
+    try:
+        AUTH.update_password(reset_token, new_password)
+        return jsonify({"email": email, "message": "Password updated"}), 200
+    except ValueError:
         abort(403)
 
 
