@@ -91,7 +91,7 @@ def get_reset_password_token():
     session_id = AUTH.create_session(email)
     if session_id:
         user = AUTH.get_user_from_session_id(session_id)
-        reset_token = AUTH.generate_reset_password_token(user.email)
+        reset_token = AUTH.get_reset_password_token(user.email)
         return jsonify({
                             "email": user.email,
                             "reset_token": user.reset_token
